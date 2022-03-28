@@ -9,12 +9,12 @@ from .serializers import (
     UserSerializerWithToken,
     OrderSerializer,
 )
-from .models import Product, Order, ShippingAddress
+from .models import Product, Order, ShippingAddress, OrderItem
 from rest_framework import status
 
 
 @api_view(["POST"])
-@permission_classes(["isAuthenticated"])
+@permission_classes([IsAuthenticated])
 def add_order_items(request):
     user = request.user
     data = request.data
@@ -28,7 +28,7 @@ def add_order_items(request):
         user=user,
         paymentMethod=data["paymentMethod"],
         taxPrice=data["taxPrice"],
-        shippginPrice=data["shippingPrice"],
+        shippingPrice=data["shippingPrice"],
         totalPrice=data["totalPrice"],
     )
 
@@ -52,5 +52,5 @@ def add_order_items(request):
         )
         product.countInStock -= item.qty
         product.save()
-    serializer = OrderSerializer(order, many=True)
+    serializer = OrderSerializer(order, many=False)
     return Response(serializer.data)

@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from . import views
+from . import views, order_views
 
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
@@ -18,4 +18,5 @@ urlpatterns = [
     path("users/profile", views.get_user_profile, name="users-profile"),
     path("users/update", views.update_user_profile, name="users-profile-update"),
     path("users/register", views.registerUser, name="register"),
+    path("orders/add/", order_views.add_order_items, name="orders-add"),
 ]
